@@ -1,0 +1,16 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Segredos — NUNCA versione credenciais reais exportadas do n8n
+*.secret.json
+.env
+.env.*
+credentials*.json
