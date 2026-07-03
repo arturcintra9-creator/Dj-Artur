@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DJ do Artur 🎧 — Playlists com IA no seu Spotify</title>
+<title>DJ do Artur 🎧 — seu DJ pessoal com IA no Spotify</title>
 <style>
   :root{
     --bg:#0b0f14; --card:#121821; --card2:#0e141c; --line:#1e2733;
@@ -21,7 +21,7 @@
   }
   a{color:var(--green)}
   header{
-    display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);
     position:sticky;top:0;background:rgba(11,15,20,.85);backdrop-filter:blur(10px);z-index:5;
   }
   header .logo{font-size:26px}
@@ -37,28 +37,30 @@
   .btn:active{transform:translateY(1px)}
   .btn-spotify{background:var(--green);color:#04140a}
   .btn-spotify:hover{filter:brightness(1.06)}
+  .btn-spotify:disabled{opacity:.5;cursor:default}
   .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line);padding:8px 14px;font-size:13px}
-  main{flex:1;display:flex;flex-direction:column;align-items:center;padding:24px 16px 40px}
+  main{flex:1;display:flex;flex-direction:column;align-items:center;padding:22px 16px 40px}
   .wrap{width:100%;max-width:760px}
 
   /* Landing */
-  .hero{text-align:center;padding:48px 20px 24px}
+  .hero{text-align:center;padding:44px 20px 24px}
   .hero .big{font-size:44px}
   .hero h2{font-size:30px;margin:14px 0 6px;line-height:1.15}
-  .hero p{color:var(--muted);font-size:16px;margin:0 auto 26px;max-width:520px;line-height:1.5}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
-  .chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--muted);font-size:13px}
+  .hero p{color:var(--muted);font-size:16px;margin:0 auto 26px;max-width:540px;line-height:1.5}
+  .steps{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:22px 0}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--muted);max-width:210px}
+  .step b{color:var(--text)}
   .note{color:var(--muted);font-size:12px;margin-top:22px}
 
   /* Chat */
   .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-  .msgs{padding:18px;display:flex;flex-direction:column;gap:14px;min-height:320px;max-height:56vh;overflow-y:auto}
-  .msg{display:flex;gap:10px;align-items:flex-start;max-width:90%}
+  .msgs{padding:18px;display:flex;flex-direction:column;gap:14px;min-height:340px;max-height:60vh;overflow-y:auto}
+  .msg{display:flex;gap:10px;align-items:flex-start;max-width:92%}
   .msg .av{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:16px}
   .msg.bot .av{background:#12251a;border:1px solid #1db95440}
   .msg.me{align-self:flex-end;flex-direction:row-reverse}
   .msg.me .av{background:#241d40;border:1px solid #7c5cff40}
-  .bubble{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:11px 14px;font-size:14.5px;line-height:1.5}
+  .bubble{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:11px 14px;font-size:14.5px;line-height:1.5;white-space:pre-wrap}
   .msg.me .bubble{background:#171a2b;border-color:#2a2f4a}
   .bubble .pl{margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
   .bubble .pl iframe{display:block;width:100%;border:0}
@@ -66,15 +68,15 @@
   .dots span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:var(--muted);animation:bl 1s infinite}
   .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
   @keyframes bl{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 12px}
+  .chip{background:var(--card2);border:1px solid var(--line);border-radius:999px;padding:7px 12px;color:var(--muted);font-size:12.5px;cursor:pointer}
+  .chip:hover{border-color:#2b3a4d;color:var(--text)}
   .composer{display:flex;gap:10px;padding:14px;border-top:1px solid var(--line);background:var(--card2)}
   .composer input{
     flex:1;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--text);
     padding:13px 14px;font-size:15px;outline:none
   }
   .composer input:focus{border-color:#2b3a4d}
-  .composer .btn{padding:13px 18px}
-  .count{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;padding:0 14px 12px}
-  .count select{background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:5px 8px}
   footer{color:var(--muted);font-size:12px;text-align:center;padding:16px}
   .hidden{display:none!important}
   .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#221016;border:1px solid #ff5a5a55;color:#ffd3d3;padding:10px 16px;border-radius:12px;font-size:13px;z-index:9}
@@ -85,7 +87,7 @@
   <span class="logo">🎧</span>
   <div>
     <h1>DJ do Artur</h1>
-    <div class="sub">Playlists com IA, direto no seu Spotify</div>
+    <div class="sub">Seu DJ pessoal com IA no Spotify</div>
   </div>
   <div class="spacer"></div>
   <div id="who" class="who hidden">
@@ -100,19 +102,18 @@
   <section id="landing" class="wrap">
     <div class="hero">
       <div class="big">🎧✨</div>
-      <h2>Diga a vibe. Ganhe a playlist.</h2>
-      <p>Entre com sua conta do Spotify e descreva um estilo, clima ou ocasião. A IA monta uma playlist personalizada e salva <b>na sua própria conta</b> — na hora.</p>
+      <h2>Converse com o DJ. Ele monta a playlist perfeita.</h2>
+      <p>Entre com sua conta do Spotify e converse com o DJ: fale seu estilo, cantores e músicas favoritas, o clima e até o nome que você quer. Ele conhece todos os gêneros, entende seu gosto e cria a playlist <b>na sua própria conta</b>.</p>
       <button class="btn btn-spotify" id="login">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="#04140a"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.6 14.4a.62.62 0 01-.86.21c-2.35-1.44-5.3-1.76-8.79-.96a.62.62 0 11-.28-1.22c3.8-.87 7.08-.5 9.72 1.11.3.18.39.57.21.86zm1.23-2.73a.78.78 0 01-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 11-.45-1.49c3.63-1.1 8.15-.56 11.23 1.33.37.22.49.7.26 1.07zm.11-2.85C14.83 8.99 9.4 8.8 6.3 9.74a.94.94 0 11-.54-1.8c3.56-1.08 9.56-.87 13.33 1.37a.94.94 0 01-.96 1.61z"/></svg>
         Entrar com Spotify
       </button>
-      <div class="chips">
-        <span class="chip">pop dos anos 2000 pra treinar</span>
-        <span class="chip">MPB tranquila pra trabalhar</span>
-        <span class="chip">funk pra festa</span>
-        <span class="chip">rock clássico na estrada</span>
+      <div class="steps">
+        <div class="step">1. <b>Entre</b> com seu Spotify</div>
+        <div class="step">2. <b>Converse</b> com o DJ sobre seu gosto</div>
+        <div class="step">3. A <b>playlist</b> aparece na sua conta</div>
       </div>
-      <div class="note">🔒 O login é feito pelo próprio Spotify. Não vemos sua senha. Só criamos playlists quando você pede.</div>
+      <div class="note">🔒 Login feito pelo próprio Spotify. Não vemos sua senha. Lemos seus artistas favoritos só para personalizar, e criamos playlists quando você pede.</div>
     </div>
   </section>
 
@@ -120,15 +121,16 @@
   <section id="app" class="wrap hidden">
     <div class="panel">
       <div class="msgs" id="msgs"></div>
-      <div class="count">
-        <span>Nº de músicas:</span>
-        <select id="count">
-          <option>8</option><option selected>10</option><option>15</option><option>20</option><option>25</option>
-        </select>
+      <div class="chips" id="chips">
+        <span class="chip">pop dos anos 2000 pra treinar</span>
+        <span class="chip">MPB tranquila pra trabalhar</span>
+        <span class="chip">funk pra festa</span>
+        <span class="chip">rock clássico na estrada</span>
+        <span class="chip">surpreenda com base no meu gosto</span>
       </div>
       <div class="composer">
-        <input id="input" type="text" placeholder="Ex.: indie melancólico pra um dia de chuva..." autocomplete="off" />
-        <button class="btn btn-spotify" id="send">Criar 🎶</button>
+        <input id="input" type="text" placeholder="Fale com o DJ..." autocomplete="off" />
+        <button class="btn btn-spotify" id="send">Enviar</button>
       </div>
     </div>
     <footer>Feito com 🎧 pelo DJ do Artur · as playlists são criadas na sua conta do Spotify</footer>
@@ -137,26 +139,29 @@
 
 <script>
 /* ==========================================================================
-   CONFIG  —  preencha estes 2 valores
+   CONFIG
    ========================================================================== */
 const CONFIG = {
-  // Client ID do seu app em https://developer.spotify.com/dashboard (é público, pode ficar aqui)
+  // Client ID do app em https://developer.spotify.com/dashboard (público)
   SPOTIFY_CLIENT_ID: "830380db4ad141398d418c14be711122",
-
-  // URL do webhook do n8n que gera a playlist com IA (já configurado e testado ✅)
-  N8N_IDEATE_URL: "https://arturcp32.app.n8n.cloud/webhook/dj-ideate",
+  // Webhook conversacional do n8n (backend v2)
+  N8N_CHAT_URL: "https://arturcp32.app.n8n.cloud/webhook/dj-chat",
 };
 /* ========================================================================== */
 
-// Redirect URI = a própria página (sem index.html). Registre esta URL EXATA no painel do Spotify.
+// Redirect URI = a própria página (sem index.html). Registre esta URL EXATA no Spotify.
 const REDIRECT_URI = (window.location.origin + window.location.pathname).replace(/index\.html$/, "");
-const SCOPES = "playlist-modify-public playlist-modify-private";
+const SCOPES = "playlist-modify-public playlist-modify-private user-top-read";
 const API = "https://api.spotify.com/v1";
 
 const $ = (id) => document.getElementById(id);
 const store = window.sessionStorage;
 
-/* ---------- PKCE helpers ---------- */
+let ME = null;
+let TASTE = { topArtists: [], topTracks: [] };
+const conversation = []; // {role:'user'|'assistant', content:string}
+
+/* ---------- PKCE ---------- */
 function randStr(len){
   const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
   let s=""; const a=crypto.getRandomValues(new Uint8Array(len));
@@ -164,58 +169,69 @@ function randStr(len){
 }
 async function sha256(str){
   const buf=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-  return btoa(String.fromCharCode(...new Uint8Array(buf)))
-    .replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 }
 
 /* ---------- Auth ---------- */
 async function login(){
-  if(CONFIG.SPOTIFY_CLIENT_ID.startsWith("COLE_")){
-    toast("O site ainda não foi configurado (Client ID faltando)."); return;
-  }
-  const verifier=randStr(64);
-  const challenge=await sha256(verifier);
+  if(CONFIG.SPOTIFY_CLIENT_ID.startsWith("COLE_")){ toast("Site sem Client ID configurado."); return; }
+  const verifier=randStr(64), challenge=await sha256(verifier);
   store.setItem("pkce_verifier", verifier);
   const p=new URLSearchParams({
-    client_id:CONFIG.SPOTIFY_CLIENT_ID, response_type:"code",
-    redirect_uri:REDIRECT_URI, code_challenge_method:"S256",
-    code_challenge:challenge, scope:SCOPES,
+    client_id:CONFIG.SPOTIFY_CLIENT_ID, response_type:"code", redirect_uri:REDIRECT_URI,
+    code_challenge_method:"S256", code_challenge:challenge, scope:SCOPES,
   });
   window.location.href="https://accounts.spotify.com/authorize?"+p.toString();
 }
-
 async function handleRedirect(){
   const params=new URLSearchParams(window.location.search);
-  const code=params.get("code");
-  if(!code) return false;
+  if(params.get("error")){ toast("Autorização cancelada."); history.replaceState({},"",REDIRECT_URI); return false; }
+  const code=params.get("code"); if(!code) return false;
   const verifier=store.getItem("pkce_verifier");
-  history.replaceState({},document.title,REDIRECT_URI); // limpa a URL
+  history.replaceState({},document.title,REDIRECT_URI);
   const body=new URLSearchParams({
     client_id:CONFIG.SPOTIFY_CLIENT_ID, grant_type:"authorization_code",
     code, redirect_uri:REDIRECT_URI, code_verifier:verifier,
   });
-  const r=await fetch("https://accounts.spotify.com/api/token",{
-    method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body,
-  });
-  if(!r.ok){ toast("Falha ao autenticar no Spotify."); return false; }
-  const t=await r.json();
-  store.setItem("access_token", t.access_token);
-  store.setItem("token_exp", Date.now()+ (t.expires_in*1000));
-  return true;
+  const r=await fetch("https://accounts.spotify.com/api/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
+  if(!r.ok){ toast("Falha ao autenticar."); return false; }
+  const t=await r.json(); saveTokens(t); return true;
+}
+function saveTokens(t){
+  if(t.access_token) store.setItem("access_token", t.access_token);
+  if(t.refresh_token) store.setItem("refresh_token", t.refresh_token);
+  if(t.expires_in) store.setItem("token_exp", Date.now()+t.expires_in*1000);
 }
 function token(){ return store.getItem("access_token"); }
 function logout(){ store.clear(); location.href=REDIRECT_URI; }
-
+async function ensureToken(){
+  const exp=parseInt(store.getItem("token_exp")||"0",10);
+  if(token() && Date.now() < exp-30000) return;
+  const rt=store.getItem("refresh_token"); if(!rt) return;
+  try{
+    const body=new URLSearchParams({client_id:CONFIG.SPOTIFY_CLIENT_ID, grant_type:"refresh_token", refresh_token:rt});
+    const r=await fetch("https://accounts.spotify.com/api/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
+    if(r.ok) saveTokens(await r.json());
+  }catch(e){}
+}
 async function api(path, opts={}){
-  const r=await fetch(API+path,{ ...opts,
-    headers:{ "Authorization":"Bearer "+token(), "Content-Type":"application/json", ...(opts.headers||{}) }});
-  if(r.status===401){ toast("Sua sessão do Spotify expirou. Entre novamente."); setTimeout(logout,1500); throw new Error("401"); }
-  if(!r.ok){ const e=await r.text(); throw new Error("Spotify "+r.status+": "+e); }
+  await ensureToken();
+  const r=await fetch(API+path,{...opts, headers:{"Authorization":"Bearer "+token(),"Content-Type":"application/json",...(opts.headers||{})}});
+  if(r.status===401){ toast("Sessão expirada. Entre novamente."); setTimeout(logout,1500); throw new Error("Sessão expirada"); }
+  if(r.status===429){ const w=parseInt(r.headers.get("Retry-After")||"2",10); await new Promise(s=>setTimeout(s,(w+1)*1000)); return api(path,opts); }
+  if(!r.ok){ throw new Error("Spotify "+r.status); }
   return r.status===204?null:r.json();
 }
 
+/* ---------- Taste ---------- */
+async function loadTaste(){
+  const taste={topArtists:[],topTracks:[]};
+  try{ const a=await api("/me/top/artists?limit=15&time_range=medium_term"); taste.topArtists=(a.items||[]).map(x=>x.name); }catch(e){}
+  try{ const t=await api("/me/top/tracks?limit=15&time_range=medium_term"); taste.topTracks=(t.items||[]).map(x=>`${x.artists[0].name} - ${x.name}`); }catch(e){}
+  return taste;
+}
+
 /* ---------- UI ---------- */
-let ME=null;
 function showApp(){
   $("landing").classList.add("hidden");
   $("app").classList.remove("hidden");
@@ -224,103 +240,104 @@ function showApp(){
     $("who-name").textContent=ME.display_name||"Você";
     if(ME.images&&ME.images[0]) $("who-img").src=ME.images[0].url; else $("who-img").style.display="none";
   }
-  botMsg(`E aí${ME&&ME.display_name?", "+ME.display_name.split(" ")[0]:""}! 🎧 Me diz um estilo, clima ou ocasião que eu monto sua playlist. Ex.: <i>"MPB tranquila pra trabalhar"</i>.`);
+  const nome = ME&&ME.display_name ? ", "+ME.display_name.split(" ")[0] : "";
+  const dica = TASTE.topArtists.length ? ` Já dei uma espiada no seu gosto (curte ${escapeHtml(TASTE.topArtists.slice(0,3).join(", "))}...).` : "";
+  botMsg(`E aí${escapeHtml(nome)}! 🎧 Sou o DJ do Artur.${dica}\nMe conta: que vibe você tá querendo hoje? Pode falar estilo, artistas, clima, ocasião — e se já tiver um nome pra playlist, manda também!`);
   $("input").focus();
 }
 function bubbleEl(who){
   const m=document.createElement("div"); m.className="msg "+who;
   const av=document.createElement("div"); av.className="av"; av.textContent=who==="bot"?"🎧":"🙂";
   const b=document.createElement("div"); b.className="bubble";
-  m.appendChild(av); m.appendChild(b); $("msgs").appendChild(m);
-  $("msgs").scrollTop=$("msgs").scrollHeight; return b;
+  m.appendChild(av); m.appendChild(b); $("msgs").appendChild(m); scroll(); return b;
 }
 function botMsg(html){ const b=bubbleEl("bot"); b.innerHTML=html; scroll(); return b; }
 function meMsg(text){ const b=bubbleEl("me"); b.textContent=text; scroll(); }
-function typing(){ const b=bubbleEl("bot"); b.innerHTML='<span class="dots"><span></span><span></span><span></span></span>'; scroll(); return b.parentElement; }
-function scroll(){ $("msgs").scrollTop=$("msgs").scrollHeight; }
+function typing(){ const b=bubbleEl("bot"); b.innerHTML='<span class="dots"><span></span><span></span><span></span></span>'; return b.parentElement; }
+function scroll(){ const m=$("msgs"); m.scrollTop=m.scrollHeight; }
 let toastT;
 function toast(msg){ let t=document.querySelector(".toast"); if(t)t.remove();
   t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t);
   clearTimeout(toastT); toastT=setTimeout(()=>t.remove(),4200); }
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
-/* ---------- Core: gerar playlist ---------- */
-async function ideate(prompt, count){
-  if(CONFIG.N8N_IDEATE_URL.startsWith("COLE_")) throw new Error("Backend (n8n) ainda não configurado.");
-  const r=await fetch(CONFIG.N8N_IDEATE_URL,{
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ prompt, count }),
-  });
-  if(!r.ok) throw new Error("Backend n8n retornou "+r.status);
-  const data=await r.json();
-  // aceita {playlistName,description,tracks} direto ou aninhado em .output
-  return data.output || data;
-}
-
-async function findTrackUri(t){
-  const q=encodeURIComponent(`${t.artist} ${t.title}`);
-  const res=await api(`/search?q=${q}&type=track&limit=1`);
-  const item=res.tracks && res.tracks.items && res.tracks.items[0];
-  return item ? item.uri : null;
-}
-
-async function createPlaylist(plan){
-  // 1. cria a playlist vazia na conta do usuário
-  const pl=await api(`/users/${ME.id}/playlists`,{
-    method:"POST",
-    body:JSON.stringify({ name:plan.playlistName||"Minha playlist", description:(plan.description||"").slice(0,300), public:true }),
-  });
-  // 2. procura cada faixa
-  const uris=[];
-  for(const t of (plan.tracks||[])){
-    try{ const u=await findTrackUri(t); if(u) uris.push(u); }catch(e){/* ignora faixa não achada */}
-  }
-  // 3. adiciona (em lotes de 100)
-  for(let i=0;i<uris.length;i+=100){
-    await api(`/playlists/${pl.id}/tracks`,{ method:"POST", body:JSON.stringify({ uris:uris.slice(i,i+100) }) });
-  }
-  return { id:pl.id, url:pl.external_urls.spotify, added:uris.length, name:pl.name };
-}
-
-async function handleSend(){
-  const input=$("input"); const prompt=input.value.trim(); if(!prompt) return;
-  const count=parseInt($("count").value,10)||10;
-  meMsg(prompt); input.value=""; $("send").disabled=true;
-  const t=typing();
+/* ---------- Chat ---------- */
+async function sendMessage(text){
+  const val=(text!==undefined?text:$("input").value).trim(); if(!val) return;
+  $("input").value=""; conversation.push({role:"user",content:val}); meMsg(val);
+  $("send").disabled=true; const t=typing();
   try{
-    const plan=await ideate(prompt, count);
-    t.querySelector(".bubble").innerHTML=`Boa! Montei <b>${escapeHtml(plan.playlistName||"sua playlist")}</b>. Buscando as faixas no Spotify… 🔎`;
-    const result=await createPlaylist(plan);
-    const embed=`https://open.spotify.com/embed/playlist/${result.id}`;
-    botMsg(
-      `✅ Pronto! <b>${escapeHtml(result.name)}</b> — ${result.added} músicas, salva no seu Spotify.`+
+    const r=await fetch(CONFIG.N8N_CHAT_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:conversation, taste:TASTE})});
+    if(!r.ok) throw new Error("O DJ não respondeu (erro "+r.status+")");
+    const data=await r.json();
+    if(data && data.type==="playlist" && Array.isArray(data.tracks) && data.tracks.length){
+      t.querySelector(".bubble").textContent=data.message||"Fechou! Montando sua playlist... 🎧";
+      conversation.push({role:"assistant",content:data.message||"(montando a playlist)"});
+      await createAndShow(data);
+    }else{
+      const msg=(data && data.message) ? data.message : "Me conta um pouco mais? 🎶";
+      t.querySelector(".bubble").textContent=msg;
+      conversation.push({role:"assistant",content:msg});
+    }
+  }catch(e){
+    t.querySelector(".bubble").innerHTML="😕 "+escapeHtml(e.message);
+  }finally{ $("send").disabled=false; $("input").focus(); }
+}
+
+/* ---------- Criar playlist no Spotify ---------- */
+async function findTrackUri(tr){
+  const tries=[`track:"${tr.title}" artist:"${tr.artist}"`, `${tr.artist} ${tr.title}`];
+  const norm=s=>String(s).toLowerCase().replace(/\(.*?\)|\[.*?\]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+  const want=norm(tr.title);
+  for(const q of tries){
+    try{
+      const res=await api(`/search?q=${encodeURIComponent(q)}&type=track&limit=5&market=from_token`);
+      const items=(res.tracks&&res.tracks.items)||[];
+      if(items.length){
+        const best=items.find(it=>{const n=norm(it.name); return n===want||n.includes(want)||want.includes(n);})||items[0];
+        return best.uri;
+      }
+    }catch(e){}
+  }
+  return null;
+}
+async function createAndShow(plan){
+  const bubble=botMsg(`Procurando as faixas de <b>${escapeHtml(plan.playlistName||"sua playlist")}</b> no Spotify… 🔎`);
+  try{
+    const pl=await api(`/users/${ME.id}/playlists`,{method:"POST",body:JSON.stringify({
+      name:(plan.playlistName||"Minha playlist").slice(0,100),
+      description:(plan.description||"").slice(0,300),
+      public: plan.public!==false
+    })});
+    const uris=[]; const seen=new Set();
+    for(const tr of plan.tracks){ const u=await findTrackUri(tr); if(u&&!seen.has(u)){ seen.add(u); uris.push(u); } }
+    for(let i=0;i<uris.length;i+=100){ await api(`/playlists/${pl.id}/tracks`,{method:"POST",body:JSON.stringify({uris:uris.slice(i,i+100)})}); }
+    const embed=`https://open.spotify.com/embed/playlist/${pl.id}`;
+    bubble.innerHTML=`✅ <b>${escapeHtml(pl.name)}</b> — ${uris.length} músicas salvas no seu Spotify.`+
       (plan.description?`<br><span style="color:var(--muted)">${escapeHtml(plan.description)}</span>`:"")+
       `<div class="pl"><iframe src="${embed}" height="352" loading="lazy" allow="encrypted-media"></iframe>`+
-      `<a class="btn-ghost" href="${result.url}" target="_blank" rel="noopener">Abrir no Spotify ↗</a></div>`
-    );
+      `<a class="btn-ghost" href="${pl.external_urls.spotify}" target="_blank" rel="noopener">Abrir no Spotify ↗</a></div>`+
+      `<div style="margin-top:8px;color:var(--muted);font-size:13px">Quer ajustar algo ou criar outra? É só falar. 🎶</div>`;
+    conversation.push({role:"assistant",content:`(Playlist "${pl.name}" criada com ${uris.length} faixas.)`});
   }catch(e){
-    t.querySelector(".bubble").innerHTML=`😕 Deu um problema: ${escapeHtml(e.message)}`;
-    console.error(e);
-  }finally{
-    $("send").disabled=false; input.focus();
+    bubble.innerHTML="😕 Não consegui criar a playlist: "+escapeHtml(e.message);
   }
 }
-function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
 /* ---------- Boot ---------- */
 $("login").onclick=login;
 $("logout").onclick=logout;
-$("send").onclick=handleSend;
-$("input").addEventListener("keydown",e=>{ if(e.key==="Enter") handleSend(); });
-document.querySelectorAll(".chip").forEach(c=>c.style.cursor="default");
+$("send").onclick=()=>sendMessage();
+$("input").addEventListener("keydown",e=>{ if(e.key==="Enter") sendMessage(); });
+$("chips").addEventListener("click",e=>{ if(e.target.classList.contains("chip")) sendMessage(e.target.textContent); });
 
 (async function init(){
   try{
-    const came=await handleRedirect();
+    await handleRedirect();
     if(token()){
       ME=await api("/me");
+      TASTE=await loadTaste();
       showApp();
-    }else if(came){
-      // token falhou
     }
   }catch(e){ console.error(e); toast("Não consegui iniciar a sessão."); }
 })();
