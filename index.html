@@ -320,7 +320,11 @@ async function createAndShow(plan){
       `<div style="margin-top:8px;color:var(--muted);font-size:13px">Quer ajustar algo ou criar outra? É só falar. 🎶</div>`;
     conversation.push({role:"assistant",content:`(Playlist "${pl.name}" criada com ${uris.length} faixas.)`});
   }catch(e){
-    bubble.innerHTML="😕 Não consegui criar a playlist: "+escapeHtml(e.message);
+    if(String(e.message).includes("403")){
+      bubble.innerHTML="😕 O Spotify bloqueou a criação (403).<br>Sua conta ainda não está autorizada neste app. Peça ao responsável para te adicionar em <b>User Management</b> no painel do Spotify — ou aguarde o app ser aprovado para uso público.";
+    }else{
+      bubble.innerHTML="😕 Não consegui criar a playlist: "+escapeHtml(e.message);
+    }
   }
 }
 
