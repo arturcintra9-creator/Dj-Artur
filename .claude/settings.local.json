@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python -c \"import json; d=json.load\\(open\\(r'C:/Users/Usuario/Desktop/dj artur/dj_artur.json', encoding='utf-8'\\)\\); print\\('OK - nodes:', len\\(d['nodes']\\), '| name:', d['name']\\)\")",
-      "Bash(node -e \"const d=require\\('C:/Users/Usuario/Desktop/dj artur/dj_artur.json'\\); console.log\\('OK - nodes:', d.nodes.length\\)\")"
-    ]
-  }
-}

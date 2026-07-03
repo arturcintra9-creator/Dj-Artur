@@ -14,3 +14,6 @@ desktop.ini
 .env
 .env.*
 credentials*.json
+
+# Config local do Claude Code
+.claude/
