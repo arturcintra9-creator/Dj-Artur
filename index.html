@@ -308,11 +308,16 @@ async function findTrackUri(tr){
 async function createAndShow(plan){
   const bubble=botMsg(`Procurando as faixas de <b>${escapeHtml(plan.playlistName||"sua playlist")}</b> no Spotify… 🔎`);
   try{
-    const pl=await api(`/users/${ME.id}/playlists`,{method:"POST",body:JSON.stringify({
-      name:(plan.playlistName||"Minha playlist").slice(0,100),
-      description:(plan.description||"").slice(0,300),
-      public: plan.public!==false
-    })});
+    const plName=(plan.playlistName||"Minha playlist").slice(0,100);
+    const plDesc=(plan.description||"").slice(0,300);
+    let pl;
+    try{
+      pl=await api(`/users/${ME.id}/playlists`,{method:"POST",body:JSON.stringify({name:plName,description:plDesc,public:plan.public!==false})});
+    }catch(e1){
+      if(String(e1.message).includes("403")){
+        pl=await api(`/users/${ME.id}/playlists`,{method:"POST",body:JSON.stringify({name:plName,description:plDesc,public:false})});
+      }else{ throw e1; }
+    }
     const uris=[]; const seen=new Set();
     for(const tr of plan.tracks){ const u=await findTrackUri(tr); if(u&&!seen.has(u)){ seen.add(u); uris.push(u); } }
     for(let i=0;i<uris.length;i+=100){ await api(`/playlists/${pl.id}/tracks`,{method:"POST",body:JSON.stringify({uris:uris.slice(i,i+100)})}); }
