@@ -151,7 +151,7 @@ const CONFIG = {
 
 // Redirect URI = a própria página (sem index.html). Registre esta URL EXATA no Spotify.
 const REDIRECT_URI = (window.location.origin + window.location.pathname).replace(/index\.html$/, "");
-const SCOPES = "playlist-modify-public playlist-modify-private user-top-read";
+const SCOPES = "playlist-modify-public playlist-modify-private user-top-read user-read-email";
 const API = "https://api.spotify.com/v1";
 
 const $ = (id) => document.getElementById(id);
@@ -321,7 +321,8 @@ async function createAndShow(plan){
     conversation.push({role:"assistant",content:`(Playlist "${pl.name}" criada com ${uris.length} faixas.)`});
   }catch(e){
     if(String(e.message).includes("403")){
-      bubble.innerHTML="😕 O Spotify bloqueou a criação (403).<br>Sua conta ainda não está autorizada neste app. Peça ao responsável para te adicionar em <b>User Management</b> no painel do Spotify — ou aguarde o app ser aprovado para uso público.";
+      const em = ME && ME.email ? `<br>E-mail desta conta (adicione este no <b>User Management</b>): <b>${escapeHtml(ME.email)}</b>` : "";
+      bubble.innerHTML="😕 O Spotify bloqueou a criação (403).<br>Esta conta ainda não está autorizada no app (ele está em modo de desenvolvimento)."+em+"<br>Peça ao responsável para te adicionar, ou aguarde a aprovação para uso público.";
     }else{
       bubble.innerHTML="😕 Não consegui criar a playlist: "+escapeHtml(e.message);
     }
